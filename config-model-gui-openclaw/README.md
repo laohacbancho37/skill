@@ -13,13 +13,20 @@ GUI for configuring OpenClaw model providers using a flow close to `openclaw con
 
 ## Run
 
-Requirements: Node.js, OpenClaw CLI, and a valid local OpenClaw config.
+Requirements: Node.js 22+, OpenClaw CLI available as `openclaw`, and a valid local OpenClaw config.
 
 ```bash
 cd source
 npm start
 ```
 
-Default URL: `http://127.0.0.1:18790`. If busy, server tries next available port.
+Default URL: `http://127.0.0.1:18790`. If busy, server tries next available port. Override with `PORT` or `HOST` when needed.
 
-Never commit `~/.openclaw/openclaw.json`, API keys, tokens, or runtime logs.
+Run checks:
+
+```bash
+npm test
+npm run check
+```
+
+Keep server bound to loopback. Never commit `~/.openclaw/openclaw.json`, API keys, tokens, or runtime logs.

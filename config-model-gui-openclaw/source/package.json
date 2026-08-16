@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "start": "PORT=18790 node server.mjs", 
-    "check": "node --check server.mjs && node --check public/app.js"
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check public/app.js",
+    "test": "node test/smoke.mjs"
   }
 }

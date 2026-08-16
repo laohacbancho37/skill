@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+const server = await readFile(new URL("../server.mjs", import.meta.url), "utf8");
+assert.match(server, /requestedPort/);
+assert.match(server, /EADDRINUSE/);
+assert.match(server, /__OPENCLAW_REDACTED__/);
+assert.match(server, /replace-path/);
+const app = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
+assert.match(app, /providerRegistry/);
+assert.match(app, /refresh/);
+console.log("smoke ok");
