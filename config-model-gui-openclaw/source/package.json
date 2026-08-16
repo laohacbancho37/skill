@@ -1,0 +1,9 @@
+{
+  "name": "openclaw-model-config",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "PORT=18790 node server.mjs", 
+    "check": "node --check server.mjs && node --check public/app.js"
+  }
+}
