@@ -9,3 +9,4 @@ Public skills for OpenClaw.
 ## Security
 
 This repository must never contain API keys, tokens, `~/.openclaw/openclaw.json`, runtime logs, or personal configuration. Credentials stay on the user's machine and are read only at runtime when needed. Each skill source must include checks and documentation suitable for users outside the original machine.
+- [`video-transcript`](./video-transcript/) — Extract video subtitles or transcribe audio through a user-configured OpenAI-compatible STT endpoint. Includes a localhost-only Cookie Manager for `yt-dlp`.

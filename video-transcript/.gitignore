@@ -1,0 +1,9 @@
+# Runtime secrets and artifacts
+.env
+.env.*
+*.log
+cookies/
+transcripts/
+*-chunks/
+__pycache__/
+*.pyc

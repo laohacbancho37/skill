@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie Manager — yt-dlp</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23336A29'/%3E%3Ccircle cx='32' cy='32' r='17' fill='%23C1D95C'/%3E%3Ccircle cx='26' cy='27' r='3' fill='%23336A29'/%3E%3Ccircle cx='38' cy='30' r='2.4' fill='%23336A29'/%3E%3Ccircle cx='30' cy='38' r='2.6' fill='%23336A29'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#F8FAEE; --surface-soft:#EAEF9D; --lime:#C1D95C;
+  --leaf-light:#80B155; --leaf:#498428; --forest:#336A29;
+  --ink:#1F2A1A; --ink-muted:#5D6B55; --line:#DDE5C5; --surface:#FFFFFF;
+  --danger:#B3402A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Be Vietnam Pro",Inter,system-ui,sans-serif;line-height:1.6}
+header{display:flex;align-items:center;gap:14px;padding:20px 28px;border-bottom:1px solid var(--line);background:var(--surface)}
+.logo{width:44px;height:44px;border-radius:12px;flex:none}
+h1{font-size:20px;margin:0;color:var(--forest);letter-spacing:-.02em}
+.sub{font-size:13px;color:var(--ink-muted)}
+main{max-width:960px;margin:0 auto;padding:28px 20px 64px}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--surface);color:var(--forest);font:600 15px "Be Vietnam Pro",sans-serif;padding:10px 20px;border-radius:12px;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}
+.tab.active{background:var(--forest);color:var(--canvas);border-color:var(--forest)}
+.tab .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.tab .dot.on{background:var(--lime)}
+.tab.active .dot.on{background:var(--lime)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 1px 3px rgba(31,42,26,.05)}
+label{font-weight:600;color:var(--forest);font-size:14px;display:block;margin-bottom:8px}
+textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:12px;padding:12px;font:400 13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--canvas);color:var(--ink);resize:vertical}
+textarea:focus{outline:3px solid var(--lime);outline-offset:2px;border-color:var(--leaf-light)}
+.hint{font-size:13px;color:var(--ink-muted);margin:10px 0 16px}
+.hint code{background:var(--surface-soft);padding:1px 6px;border-radius:6px;font-size:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+button.primary{background:var(--forest);color:var(--canvas);border:none;border-radius:12px;padding:12px 24px;font:600 15px "Be Vietnam Pro",sans-serif;cursor:pointer;min-height:44px}
+button.primary:hover{background:#2b5a23}
+button.ghost{background:transparent;border:1px solid var(--leaf);color:var(--forest);border-radius:12px;padding:12px 20px;font:600 14px "Be Vietnam Pro",sans-serif;cursor:pointer;min-height:44px}
+button.danger{background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:12px;padding:12px 20px;font:600 14px "Be Vietnam Pro",sans-serif;cursor:pointer;min-height:44px}
+button:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.status{margin-top:16px;padding:12px 16px;border-radius:12px;font-size:14px;display:none}
+.status.ok{display:block;background:var(--surface-soft);color:var(--forest)}
+.status.err{display:block;background:#FBEAE6;color:var(--danger)}
+.meta{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.meta .m{background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px}
+.meta .m b{color:var(--forest)}
+footer{display:none}
+</style>
+</head>
+<body>
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#336A29"/><circle cx="32" cy="32" r="17" fill="#C1D95C"/><circle cx="26" cy="27" r="3" fill="#336A29"/><circle cx="38" cy="30" r="2.4" fill="#336A29"/><circle cx="30" cy="38" r="2.6" fill="#336A29"/></svg>
+  <div>
+    <h1>Cookie Manager</h1>
+    <div class="sub">Lưu cookie cho yt-dlp — YouTube · Facebook · TikTok</div>
+  </div>
+</header>
+<main>
+  <div class="tabs" id="tabs"></div>
+  <div class="card">
+    <label for="cookieInput">Cookie JSON (hoặc Netscape text) cho <span id="platName">youtube</span></label>
+    <textarea id="cookieInput" placeholder='Dán JSON cookie tại đây, ví dụ:
+[
+  {"domain": ".youtube.com", "name": "SID", "value": "...", "expirationDate": 1800000000, "path": "/", "secure": true, "httpOnly": true}
+]' spellcheck="false"></textarea>
+    <div class="hint">
+      Cách lấy: mở trang đã đăng nhập → DevTools (F12) → Console → chạy extension export cookie (ví dụ <code>Get cookies.txt LOCALLY</code> hoặc <code>Cookie-Editor</code>) → copy JSON → dán vào đây.
+      Hỗ trợ cả định dạng Netscape <code>cookies.txt</code>.
+    </div>
+    <div class="actions">
+      <button class="primary" id="saveBtn">Lưu cookie</button>
+      <button class="ghost" id="clearBtn">Xóa ô nhập</button>
+      <button class="danger" id="deleteBtn">Xóa cookie đã lưu</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
